@@ -3,6 +3,13 @@ import time
 requests.packages.urllib3.disable_warnings()
 
 
+def btc_usd_rate():
+    url = "https://bittrex.com/api/v1.1/public/getticker?market=USDT-BTC"
+    resp = requests.get(url=url)
+    rate = json.loads(resp.text)
+    btc_rate = "%.2f" % (float(rate["result"]["Last"]))
+    return btc_rate
+
 
 def btc_usd_sell():
     url = "https://bittrex.com/api/v1.1/public/getorderbook?market=USDT-BTC&type=sell"
@@ -10,11 +17,13 @@ def btc_usd_sell():
     sell = json.loads(resp.text)
     return sell
 
+
 def btc_usd_buy():
     url = "https://bittrex.com/api/v1.1/public/getorderbook?market=USDT-BTC&type=buy"
     resp = requests.get(url=url)
     buy = json.loads(resp.text)
     return buy
+
 
 def btc_sell_quantity():
     sell_q = 0
@@ -25,6 +34,7 @@ def btc_sell_quantity():
 
     return sell_q
 
+
 def btc_buy_quantity():
     buy_q = 0
 
@@ -34,13 +44,14 @@ def btc_buy_quantity():
 
     return buy_q
 
+
 def print_to():
     print "-------------------------------"
     print "BTC Sell Quantity = " + str(sell_q)
     print "BTC Buy Quantity = " + str(buy_q)
+    print "BTC Price = $" + str(btc_rate)
     print ""
     print time.strftime("%Y-%m-%d %H:%M:%S")
-    #print
     print ""
 
 
@@ -52,12 +63,9 @@ while True:
     buy = btc_usd_buy()
     buy_q = btc_buy_quantity()
 
+    btc_rate = btc_usd_rate()
+
     print_to()
     time.sleep(30)
 
-#b = a[0]
-#c = b.get("Quantity")
-#int(c)
-#print c
-#d = 5 + c
-#print d
+exit()
